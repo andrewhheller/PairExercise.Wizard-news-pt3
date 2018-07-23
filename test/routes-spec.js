@@ -3,6 +3,12 @@ const expect = require('chai').expect;
 const supertest = require('supertest');
 const app = supertest(require('../app.js'));
 
+// const pg = require('pg');
+// const {Client} = pg;
+// const postgresURL = 'postgres://localhost/wnews_test';
+// const client = new Client(postgresURL);
+// client.connect();
+
 describe('routes', () => {
 
   it('main route exists and contains database data', () => {

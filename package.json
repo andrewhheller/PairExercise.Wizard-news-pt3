@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon ./node_modules/mocha/bin/mocha",
+    "test": "DATABASE_URL=postgres://localhost/wnews_test nodemon ./node_modules/mocha/bin/mocha",
+    "start:dev": "DATABASE_URL=postgres://localhost/wnews_dev nodemon ./server.js",
     "start": "nodemon ./server.js"
   },
   "keywords": [],

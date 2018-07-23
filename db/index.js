@@ -1,28 +1,24 @@
-// // bring in module
-// const {Client} = require('pg');
-
-// // create an object that includes connection settings
-// const client = new Client({
-//   connectionString: "postgres://localhost/wnews"
-// });
-
-// await client.connect();
-
-// const res = await client.query('SELECT * FROM users');
-// console.log(res);
-
-// // closes connection
-// await client.end();
-
 // setting up the node-postpgres driver
 const pg = require('pg');
 
-const postgresUrl = 'postgres://localhost/wnews';
+// destructuring, pulling out and naming 'Client' constructor function from pg library
+const {Client} = pg;
 
-const client = new pg.Client(postgresUrl);
+// assigning connection string to variable
+const postgresURL = 'postgres://localhost/wnews_test';
+
+// assigning client as new instance of Client constructor function passing in connection string
+const client = new Client(postgresURL);
 
 // connecting to the 'postgres' server
 client.connect();
+
+// const synchAndSeed = () => {
+
+//   const sql = 
+
+
+// }
 
 // make the client available as a node module
 module.exports = client;
