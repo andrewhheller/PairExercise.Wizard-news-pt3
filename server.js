@@ -7,5 +7,5 @@ const app = require('./app.js');
 const PORT = 1337;
 
 app.listen(PORT, () => {
-  console.log(`App listening in port ${PORT}`);
+  console.log(`listening in port ${PORT}`);
 });

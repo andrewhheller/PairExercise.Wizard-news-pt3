@@ -106,6 +106,8 @@ app.get("/posts/:id", async (req, res, next) => {
 // search query results
 app.post("/search", async (req, res, next) => {
 
+  // console.log(req.body.name);
+
   try {
     const data = await client.query(`
       SELECT userid, title, name, content, upvotes, date
