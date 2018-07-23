@@ -31,7 +31,11 @@ header {
   height: 26px;
 }
 
-header > img {
+header a {
+  color: #FFFFFF;
+}
+
+header > a > img {
   margin-right: 10px;
   width: 20px;
   height: 20px;
@@ -80,4 +84,36 @@ textarea {
 
 .news-info {
   margin-left: 40px;
+}
+
+#search-box {
+  width: 500px;
+}
+
+#search-button {
+  width: 60px;
+  background-color: green;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
+#search-button:hover {
+  background-color: darkgreen;
+  cursor: pointer;
+  outline: none;
+}
+
+#delete-button {
+  width: 80px;
+  background-color: red;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+}
+
+#delete-button:hover {
+  background-color: darkred;
+  cursor: pointer;
+  outline: none;
 }

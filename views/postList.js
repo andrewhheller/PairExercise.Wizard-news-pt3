@@ -9,12 +9,24 @@ module.exports = posts => html`<!DOCTYPE html>
   </head>
   <body>
     <div class="news-list">
-      <header><img src="/logo.png"/>Wizard News</header>
+      <header><a href="/"><img src="/logo.png"/>Wizard News</a></header>
+
+      <br>
+
+      <form method="POST" action="/search">
+
+        <div>
+            <input id="search-box" name="name" placeholder="Search wizard posts..."></input>
+            <input id="search-button" type="submit" value="Search">
+        </div>
+
+      </form>
+
       ${posts.map(post => html`
         <div class='news-item'>
           <p>
-            <span class="news-position">${post.id}. ▲</span>
-            <a href="/posts/${post.id}">${post.title}</a>
+            <span class="news-position">${post.userid}. ▲</span>
+            <a href="/posts/${post.userid}" target="_blank">${post.title}</a>
             <small>(by ${post.name})</small>
           </p>
           <small class="news-info">
