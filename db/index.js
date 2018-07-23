@@ -5,7 +5,10 @@ const pg = require('pg');
 const {Client} = pg;
 
 // assigning connection string to variable
-const postgresURL = 'postgres://localhost/wnews_test';
+// const postgresURL = 'postgres://localhost/wnews_test';
+const postgresURL = process.env.DATABASE_URL;
+
+console.log(postgresURL);
 
 // assigning client as new instance of Client constructor function passing in connection string
 const client = new Client(postgresURL);
