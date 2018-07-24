@@ -22,7 +22,7 @@ const postList = require("./views/postList");
 const postDetails = require("./views/postDetails");
 
 // model / data (index.js)
-const {client} = require("./db");
+const {client, getAllPosts, getOnePost, searchPosts, deletePost} = require("./db");
 
 
 // instantiate express
@@ -61,20 +61,8 @@ app.get("/", async (req, res, next) => {
   // }
   
   try {
-    const data = await client.query(`
-      SELECT userid, title, name, upvotes, date
-      FROM posts
-      LEFT JOIN users
-        ON posts.id = users.id
-      FULL JOIN (
-        SELECT postid, COUNT(*) AS upvotes FROM upvotes GROUP BY postid
-      ) AS tally
-        ON posts.id = tally.postid
-        ORDER BY userid`);
-
-    // console.log(data.rows);
-
-    res.send(postList(data.rows));
+    const posts = await getAllPosts();
+    res.send(postList(posts));
   }
   catch (error) {
     next(error);
@@ -86,14 +74,8 @@ app.get("/", async (req, res, next) => {
 app.get("/posts/:id", async (req, res, next) => {
 
   try {
-    const data = await client.query(`
-      SELECT *
-      FROM posts
-      LEFT JOIN users
-      ON posts.id = users.id
-      WHERE posts.id = ${+req.params.id}`);
-
-      res.send(postDetails(data.rows[0]));
+    const post = await getOnePost(+req.params.id);
+    res.send(postDetails(post));
   }
   catch (error) {
     next(error);
@@ -110,22 +92,8 @@ app.post("/search", async (req, res, next) => {
   // console.log(req.body.name);
 
   try {
-    const data = await client.query(`
-      SELECT userid, title, name, content, upvotes, date
-        FROM posts
-        FULL JOIN users
-          ON posts.id = users.id
-        FULL JOIN (
-          SELECT postid, COUNT(*) AS upvotes FROM upvotes GROUP BY postid
-        ) AS tally
-          ON posts.id = tally.postid
-        WHERE LOWER(content)
-          LIKE LOWER('%${req.body.name}%')
-        OR LOWER(title)
-          LIKE LOWER('%${req.body.name}%');
-      `);
-
-      res.send(postList(data.rows));
+    const posts = await searchPosts(req.body.name);
+    res.send(postList(posts));
   }
   catch (error) {
     next(error);
@@ -136,20 +104,12 @@ app.post("/search", async (req, res, next) => {
 });
 
 // delete post
-app.delete('/posts/:id', async (req, res) => {
+app.delete('/posts/:id', async (req, res, next) => {
 
   // console.log(req.params.id);
 
   try {
-    const deletePost = await client.query(`
-    
-      DELETE from upvotes
-        WHERE postid = ${+req.params.id};
-
-      DELETE from posts
-        WHERE id = ${+req.params.id};
-    `)
-
+    const post = await deletePost(+req.params.id);
     res.redirect('/');
   }
   catch (error) {

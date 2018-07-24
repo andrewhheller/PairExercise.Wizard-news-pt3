@@ -98,13 +98,104 @@ const syncAndSeed = async () => {
 
 }
 
-// make the client available as a node module
-// module.exports = {
-//   client,
-//   syncAndSeed
-// }
+const getAllPosts = async () => {
+
+  try {
+    const data = await client.query(`
+      SELECT userid, title, name, upvotes, date
+      FROM posts
+      LEFT JOIN users
+        ON posts.id = users.id
+      FULL JOIN (
+        SELECT postid, COUNT(*) AS upvotes FROM upvotes GROUP BY postid
+      ) AS tally
+        ON posts.id = tally.postid
+        ORDER BY userid`);
+
+    return data.rows;
+  }
+  catch (error) {
+    throw error;
+  }
+
+}
+
+const getOnePost = async (id) => {
+
+  try {
+
+    const data = await client.query(`
+      SELECT *
+      FROM posts
+      LEFT JOIN users
+      ON posts.id = users.id
+      WHERE posts.id = $1`, [id]);
+
+    return data.rows[0];
+
+  }
+  catch (error) {
+    throw error;
+  }
+
+}
+
+const searchPosts = async (name) => {
+
+  try {
+    const data = await client.query(`
+      SELECT userid, title, name, content, upvotes, date
+        FROM posts
+        FULL JOIN users
+          ON posts.id = users.id
+        FULL JOIN (
+          SELECT postid, COUNT(*) AS upvotes FROM upvotes GROUP BY postid
+        ) AS tally
+          ON posts.id = tally.postid
+        WHERE LOWER(content)
+          LIKE LOWER('%' || $1 || '%')
+        OR LOWER(title)
+          LIKE LOWER('%' || $1 || '%');
+      `, [name]);
+
+      return data.rows;
+    }
+    catch (error) {
+      throw error;
+    }
+
+}
+
+const deletePost = async (id) => {
+
+  try {
+
+    const deleteFromUpvotes = await client.query(`
+      DELETE from upvotes 
+        WHERE postid = $1;
+    `, [id]);
+
+    const deleteFromPosts = await client.query(`
+      DELETE from posts
+        WHERE id = $1;
+    `, [id]);
+
+  }
+  catch (error) {
+    throw error;
+  }
+
+
+}
+
+
+
 
 module.exports = {
   client,
+  getAllPosts,
+  getOnePost,
+  searchPosts,
+  deletePost,
   syncAndSeed
 }
