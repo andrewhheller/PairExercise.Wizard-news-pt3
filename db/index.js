@@ -34,7 +34,7 @@ const syncAndSeed = () => {
       userId INTEGER REFERENCES users(id) NOT NULL,
       title varchar(255) DEFAULT NULL,
       content TEXT DEFAULT NULL,
-      date timestamp DEFAULK now()
+      date timestamp DEFAULT now()
     );
 
     TRUNCATE TABLE users, posts;
@@ -71,7 +71,7 @@ const syncAndSeed = () => {
 
     CREATE TABLE upvotes (
       userId INTEGER REFERENCES users(id) NOT NULL,
-      postId INTEGER REFERENCES posts(id) NOT NUL,
+      postId INTEGER REFERENCES posts(id) NOT NULL,
       date timestamp DEFAULT now()
     );
 
