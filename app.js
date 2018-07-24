@@ -22,7 +22,7 @@ const postList = require("./views/postList");
 const postDetails = require("./views/postDetails");
 
 // model / data (index.js)
-const {client, getAllPosts, getOnePost, searchPosts, deletePost} = require("./db");
+const {getAllPosts, getOnePost, searchPosts, deletePost} = require("./db");
 
 
 // instantiate express

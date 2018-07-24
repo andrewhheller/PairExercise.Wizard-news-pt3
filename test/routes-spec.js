@@ -3,15 +3,38 @@ const expect = require('chai').expect;
 const supertest = require('supertest');
 const app = supertest(require('../app.js'));
 
-// const pg = require('pg');
-// const {Client} = pg;
-// const postgresURL = 'postgres://localhost/wnews_test';
-// const client = new Client(postgresURL);
-// client.connect();
+const {syncAndSeed, getAllPosts} = require('../db');
 
-describe('routes', () => {
 
-  it('main route exists and contains database data', () => {
+
+describe('Wizard News Part 2 Routing and Data Tests', () => {
+
+  beforeEach(async () => {
+
+    try{
+      await syncAndSeed();
+    }
+    catch (error) {
+      throw error;
+    }
+
+  });
+
+  it('can access database OK', async () => {
+
+    try{
+      const posts = await getAllPosts();
+      // console.log(posts);
+      expect(posts.length).to.be.greaterThan(0);
+    }
+    catch (error) {
+      throw error;
+    }
+
+
+  })
+
+  it('can view all posts', () => {
   
     return app.get('/')
       .expect(200)
@@ -21,7 +44,7 @@ describe('routes', () => {
 
   });
 
-  it('individual post route exists and contains database data', () => {
+  it('can view a specific post', () => {
 
     return app.get('/posts/8')
       .expect(200)
@@ -51,12 +74,5 @@ describe('routes', () => {
       });
 
   });
-
-
-
-  
-
-
-
 
 });
