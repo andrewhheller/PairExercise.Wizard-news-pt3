@@ -88,7 +88,6 @@ const syncAndSeed = async () => {
     INSERT INTO upvotes (userId, postId) VALUES (14,1);
   
   `
-
     try {
       await client.query(sql);
     }
@@ -185,11 +184,7 @@ const deletePost = async (id) => {
     throw error;
   }
 
-
 }
-
-
-
 
 module.exports = {
   client,

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "DATABASE_URL=postgres://localhost/wnews_dev nodemon ./node_modules/mocha/bin/mocha",
+    "start:test": "DATBASE_URL=postgres://localhost/wnews_test nodemon ./server.js",
     "start:dev": "DATABASE_URL=postgres://localhost/wnews_dev nodemon ./server.js",
     "start": "node ./server.js"
   },
