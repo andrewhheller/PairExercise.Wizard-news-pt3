@@ -16,13 +16,13 @@ const client = new Client(postgresURL);
 // connecting to the 'postgres' server
 client.connect();
 
-const syncAndSeed = () => {
+const syncAndSeed = async () => {
 
-  const sql = (`
+  const sql = `
   
-    DROP TABLE IF EXISTS users;
-    DROP TABLE IF EXISTS posts;
-    DROP TABLE IF EXISTS upvotes;
+    DROP TABLE IF EXISTS users CASCADE;
+    DROP TABLE IF EXISTS posts CASCADE;
+    DROP TABLE IF EXISTS upvotes CASCADE;
     
     CREATE TABLE users (
       id SERIAL PRIMARY KEY,
@@ -87,8 +87,14 @@ const syncAndSeed = () => {
     INSERT INTO upvotes (userId, postId) VALUES (12,1),(13,2);
     INSERT INTO upvotes (userId, postId) VALUES (14,1);
   
-  `)
+  `
 
+    try {
+      await client.query(sql);
+    }
+    catch (error) {
+      throw (error);
+    }
 
 }
 

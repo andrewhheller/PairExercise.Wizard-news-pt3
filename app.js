@@ -69,7 +69,8 @@ app.get("/", async (req, res, next) => {
       FULL JOIN (
         SELECT postid, COUNT(*) AS upvotes FROM upvotes GROUP BY postid
       ) AS tally
-        ON posts.id = tally.postid`);
+        ON posts.id = tally.postid
+        ORDER BY userid`);
 
     // console.log(data.rows);
 
