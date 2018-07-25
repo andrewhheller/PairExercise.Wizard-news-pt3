@@ -1,4 +1,4 @@
-starting from (custom solution of) Wizarding News Part 3, add
+wizard news part 3
 - express router
-- add post functinality
-- tests!
+- added add post functionality
+- included tests!

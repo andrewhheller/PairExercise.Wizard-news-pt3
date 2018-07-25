@@ -6,7 +6,7 @@
   "scripts": {
     "test": "DATABASE_URL=postgres://localhost/wnews_test nodemon ./node_modules/mocha/bin/mocha",
     "start:dev": "DATABASE_URL=postgres://localhost/wnews_dev nodemon ./server.js",
-    "start": "nodemon ./server.js"
+    "start": "node ./server.js"
   },
   "keywords": [],
   "author": "",
