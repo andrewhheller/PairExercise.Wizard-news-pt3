@@ -1,7 +1,8 @@
 // ### NODE MODULES ###
 
-// bring in express library
+// bring in express library and instantiate
 const express = require("express");
+const app = express();
 
 // bring in morgan middleware (logging)
 const morgan = require("morgan");
@@ -12,22 +13,10 @@ const bodyParser = require("body-parser")
 // bring in method-override middleware
 const methodOverride = require("method-override");
 
-
-// ### CUSTOM MODULES ####
-
-// views: all post listing
-const postList = require("./views/postList");
-
-// views: individual post
-const postDetails = require("./views/postDetails");
-
-// model / data (index.js)
-const {getAllPosts, getOnePost, searchPosts, deletePost} = require("./db");
-
+// bring in routes
 const routes = require('./routes/posts.js');
 
-// instantiate express
-const app = express();
+
 
 
 // ### MIDDLEWARE ###
@@ -47,7 +36,10 @@ app.use(methodOverride('_method'));
 // express router middleware
 app.use('/posts', routes);
 
-app.get('/', (req, res) => {
+
+// ### REDIRECTION ROUTE ###
+
+app.get('/', (req, res, next) => {
   res.redirect('/posts');
 });
 

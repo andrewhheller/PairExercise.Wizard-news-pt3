@@ -69,7 +69,7 @@ describe('Wizard News Part 3 Data Tests', () => {
     try {
       await deletePost(userMap.Bellatrix1[0].userid);
       const posts = await getAllPosts();
-      console.log(posts);
+      // console.log(posts);
       expect(posts.some(post => post.name === 'Bellatrix1')).to.equal(false);
     }
     catch (error) {

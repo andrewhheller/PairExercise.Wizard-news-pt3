@@ -7,7 +7,7 @@ const {syncAndSeed, getAllPosts} = require('../db');
 
 
 
-describe('Wizard News Part 2 Routing and Data Tests', () => {
+describe('Wizard News Part 3 Routing and Data Tests', () => {
 
   beforeEach(async () => {
 
@@ -67,7 +67,7 @@ describe('Wizard News Part 2 Routing and Data Tests', () => {
 
   it('can delete a post', () => {
 
-    return app.delete('/posts/6')
+    return app.delete('/posts/posts/6')
       .expect(302)
       .then(response => {
         expect(response.text).to.not.contain('The complete quidditch statistics')

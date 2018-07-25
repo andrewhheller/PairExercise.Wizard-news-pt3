@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {getAllPosts, getOnePost, searchPosts, deletePost, addPost} = require('../db');
+
 const postList = require('../views/postList.js');
 const postDetails = require('../views/postDetails.js');
 const postAdd = require('../views/addPost.js');
@@ -108,8 +109,6 @@ router.post("/search", async (req, res, next) => {
 
 // delete post
 router.delete('/:id', async (req, res, next) => {
-
-  // console.log(req.params.id);
 
   try {
     const post = await deletePost(+req.params.id);

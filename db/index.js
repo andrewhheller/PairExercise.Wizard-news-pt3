@@ -137,7 +137,7 @@ const getOnePost = async (id) => {
 
     const data = await client.query(`
     
-      SELECT userid, title, name, content, upvotes, date
+      SELECT userid, title, name, content, upvotes, date, posts.id
       FROM posts
       LEFT JOIN users
         ON posts.id = users.id
@@ -151,6 +151,7 @@ const getOnePost = async (id) => {
       WHERE users.id = $1;
     
     `, [id])
+    
 
     return data.rows[0];
 
@@ -188,6 +189,8 @@ const searchPosts = async (name) => {
 }
 
 const deletePost = async (id) => {
+
+  console.log('hello');
 
   try {
 
