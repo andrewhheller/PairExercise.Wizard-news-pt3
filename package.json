@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "DATABASE_URL=postgres://localhost/wnews_dev nodemon ./node_modules/mocha/bin/mocha",
-    "start:test": "DATBASE_URL=postgres://localhost/wnews_test nodemon ./server.js",
+    "test": "DATABASE_URL=postgres://localhost/wnews_test nodemon ./node_modules/mocha/bin/mocha",
     "start:dev": "DATABASE_URL=postgres://localhost/wnews_dev nodemon ./server.js",
-    "start": "node ./server.js"
+    "start": "nodemon ./server.js"
   },
   "keywords": [],
   "author": "",

@@ -106,7 +106,10 @@ const getAllPosts = async () => {
       LEFT JOIN users
         ON posts.id = users.id
       FULL JOIN (
-        SELECT postid, COUNT(*) AS upvotes FROM upvotes GROUP BY postid
+        SELECT postid, COUNT(*)
+        AS upvotes
+        FROM upvotes
+        GROUP BY postid
       ) AS tally
         ON posts.id = tally.postid
         ORDER BY userid`);
@@ -123,12 +126,31 @@ const getOnePost = async (id) => {
 
   try {
 
+    // const data = await client.query(`
+    //   SELECT *
+    //   FROM posts
+    //   LEFT JOIN users
+    //   ON posts.id = users.id
+    //   WHERE posts.id = $1`, [id]);
+
+    // return data.rows[0];
+
     const data = await client.query(`
-      SELECT *
+    
+      SELECT userid, title, name, content, upvotes, date
       FROM posts
       LEFT JOIN users
-      ON posts.id = users.id
-      WHERE posts.id = $1`, [id]);
+        ON posts.id = users.id
+      FULL JOIN (
+        SELECT postid, COUNT(*)
+        AS upvotes
+        FROM upvotes
+        GROUP BY postid
+      ) AS tally
+      ON posts.id = tally.postid
+      WHERE users.id = $1;
+    
+    `, [id])
 
     return data.rows[0];
 
@@ -186,11 +208,69 @@ const deletePost = async (id) => {
 
 }
 
+const addPost = async (name, title, content) => {
+
+  try {
+    const addUser = await client.query(`
+    
+      INSERT INTO users (name)
+      SELECT $1
+      WHERE
+        NOT EXISTS (
+          SELECT name from users WHERE name = $1
+        );
+    `, [name]);
+
+    const addPost = await client.query(`
+    
+        INSERT INTO posts (userId, title, content, date)
+        VALUES (
+          (SELECT id FROM users WHERE name = $1),
+          $2,
+          $3,
+          (now())
+        )
+  
+    `, [name, title, content]);
+
+    const addUpvote = await client.query(`
+    
+        INSERT into upvotes (userid, postid, date)
+        VALUES (
+          (SELECT id FROM users WHERE name = $1),
+          (SELECT id FROM posts WHERE title = $2),
+          (now())
+        )
+    
+    `, [name, title]);
+    
+    const getNewPost = await client.query(`
+    
+        SELECT * FROM posts
+        WHERE title = $1;
+    
+    `, [title])
+
+    return getNewPost.rows[0];
+
+  }
+  catch (error) {
+    throw error;
+  }
+
+
+
+}
+
+
+
+
 module.exports = {
   client,
   getAllPosts,
   getOnePost,
   searchPosts,
   deletePost,
+  addPost,
   syncAndSeed
 }

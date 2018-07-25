@@ -117,3 +117,17 @@ textarea {
   cursor: pointer;
   outline: none;
 }
+
+.add-post a {
+  color: blue;
+  font-weight: bold;
+  padding-left: 15px;
+}
+
+.add-post a:hover {
+  color: darkblue;
+}
+
+.post-details-info {
+  margin-left: 0;
+}

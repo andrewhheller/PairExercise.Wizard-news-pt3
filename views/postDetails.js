@@ -21,7 +21,9 @@ module.exports = (post) => html`<!DOCTYPE html>
       <p>
         ${post.title} <small>(by ${post.name})</small>
       </p>
-      <small>${post.upvotes}</small>
+      <small class="news-info post-details-info">
+        ${post.upvotes} upvotes | ${timeAgo(post.date)}
+      </small>
       <p>${post.content}</p>
     </div>
   </div>

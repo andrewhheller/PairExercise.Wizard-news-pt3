@@ -36,7 +36,7 @@ describe('Wizard News Part 2 Routing and Data Tests', () => {
 
   it('can view all posts', () => {
   
-    return app.get('/')
+    return app.get('/posts')
       .expect(200)
       .then(response => {
         expect(response.text).to.contain('Wizarding');
@@ -56,7 +56,7 @@ describe('Wizard News Part 2 Routing and Data Tests', () => {
 
   it('can search for text', () => {
 
-    return app.post('/search')
+    return app.post('/posts/search')
       .send('name=muggle')
       .expect(200)
       .then(response => {

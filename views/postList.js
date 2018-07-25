@@ -13,7 +13,7 @@ module.exports = posts => html`<!DOCTYPE html>
 
       <br>
 
-      <form method="POST" action="/search">
+      <form method="POST" action="/posts/search">
 
         <div>
             <input id="search-box" name="name" placeholder="Search wizard posts..."></input>
@@ -21,6 +21,10 @@ module.exports = posts => html`<!DOCTYPE html>
         </div>
 
       </form>
+
+      <p class="add-post"><a href="/posts/add" target="_blank">Add a new post >></a></p>
+
+      <br>
 
       ${posts.map(post => html`
         <div class='news-item'>

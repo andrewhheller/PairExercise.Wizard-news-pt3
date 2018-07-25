@@ -24,6 +24,7 @@ const postDetails = require("./views/postDetails");
 // model / data (index.js)
 const {getAllPosts, getOnePost, searchPosts, deletePost} = require("./db");
 
+const routes = require('./routes/posts.js');
 
 // instantiate express
 const app = express();
@@ -38,84 +39,17 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname + "/public"));
 
 // activate body-parser middleware (urlenclded)
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended: false}));
 
 // activate method override middleware
 app.use(methodOverride('_method'));
 
+// express router middleware
+app.use('/posts', routes);
 
-// ### ROUTES ###
-
-// home page
-app.get("/", async (req, res, next) => {
-
-  // try {
-  //   const data = await client.query('SELECT * FROM posts');
-  //   const posts = data.rows;
-  //   // console.log('test');
-  //   res.send(postList(posts));
-  // }
-  // catch (error) {
-  //   console.error(error);
-  //   res.status(500).send(`Something went wrong... ${error}`);
-  // }
-  
-  try {
-    const posts = await getAllPosts();
-    res.send(postList(posts));
-  }
-  catch (error) {
-    next(error);
-  }
-
+app.get('/', (req, res) => {
+  res.redirect('/posts');
 });
 
-// individual post page
-app.get("/posts/:id", async (req, res, next) => {
-
-  try {
-    const post = await getOnePost(+req.params.id);
-    res.send(postDetails(post));
-  }
-  catch (error) {
-    next(error);
-  }
-
-  // console.log(data.rows);
-
-  
-});
-
-// search query results
-app.post("/search", async (req, res, next) => {
-
-  // console.log(req.body.name);
-
-  try {
-    const posts = await searchPosts(req.body.name);
-    res.send(postList(posts));
-  }
-  catch (error) {
-    next(error);
-  }
-
-  // console.log(data);
-
-});
-
-// delete post
-app.delete('/posts/:id', async (req, res, next) => {
-
-  // console.log(req.params.id);
-
-  try {
-    const post = await deletePost(+req.params.id);
-    res.redirect('/');
-  }
-  catch (error) {
-    next(error);
-  }
-  
-});
 
 module.exports = app;
